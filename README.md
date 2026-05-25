@@ -1,11 +1,11 @@
 ## Beacon Machine
 
-> This tool was created in educational purposes. Use it on your own risk.
-
+> This tool was created for educational purposes. Use it on your own risk.
 
 ## Requirements
 
 - python
+- uv
 - aircrack-ng installed on your system
 
 ## How to use
@@ -17,13 +17,31 @@ sudo airmon-ng check kill
 sudo airmon-ng start wlan0
 ```
 
-Check that your monitor in correct country (it mattters):
+Check that your monitor in correct country (it matters):
+
 ```shell
 sudo iw reg set RU
 ```
 
+### CLI
+
 ```shell
-sudo uv run beacon_machine.py <interface> -c <how-many-spots> -p <prefix-for-each-network> -ch <channel-on-which-deploy>
+uv run beacon_machine <interface> -c <how-many-spots> -ch <channel> (--ssid <name> | --ssid-file <path> | --random-ssid)
 ```
+
+Examples:
+
+```shell
+# One SSID for all APs (no prefix mode)
+sudo uv run beacon_machine wlan0mon -c 10 -ch 36 --ssid FreeWiFi
+
+# SSIDs from file (one SSID per line)
+sudo uv run beacon_machine wlan0mon -c 10 -ch 36 --ssid-file ssids.txt
+
+# Random SSIDs
+sudo uv run beacon_machine wlan0mon -c 10 -ch 36 --random-ssid --random-length 10
+```
+
+Supported channels: `1, 6, 11, 36, 40, 44, 48`
 
 Happy hacking! >w<
